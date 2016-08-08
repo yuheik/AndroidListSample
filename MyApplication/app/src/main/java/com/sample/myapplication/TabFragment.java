@@ -12,15 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class HomeFragment extends Fragment {
-    private HomePagerAdapter homePagerAdapter;
+public class TabFragment extends Fragment {
+    private TabAdapter tabAdapter;
 
-//    public HomeFragment() {
-//        // Required empty public constructor
-//    }
-
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public static TabFragment newInstance() {
+        TabFragment fragment = new TabFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -32,13 +28,13 @@ public class HomeFragment extends Fragment {
         if (getArguments() != null) {
         }
 
-        homePagerAdapter = new HomePagerAdapter(getChildFragmentManager());
+        tabAdapter = new TabAdapter(getChildFragmentManager());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.home, container, false);
+        View rootView = inflater.inflate(R.layout.tab, container, false);
 
         ViewPager viewPager = setupViewPager(rootView);
         TabLayout tabLayout = setupTabLayout(rootView, viewPager);
@@ -50,7 +46,7 @@ public class HomeFragment extends Fragment {
 
     private ViewPager setupViewPager(View rootView) {
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.view_pager);
-        viewPager.setAdapter(homePagerAdapter);
+        viewPager.setAdapter(tabAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -70,8 +66,8 @@ public class HomeFragment extends Fragment {
     }
 
 
-    class HomePagerAdapter extends FragmentStatePagerAdapter {
-        public HomePagerAdapter(FragmentManager fm) {
+    class TabAdapter extends FragmentStatePagerAdapter {
+        public TabAdapter(FragmentManager fm) {
             super(fm);
         }
 

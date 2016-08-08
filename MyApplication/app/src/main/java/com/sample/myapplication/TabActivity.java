@@ -7,14 +7,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity {
+public class TabActivity extends AppCompatActivity {
 
     Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.tab_activitiy);
 
         setUpToolBar();
         setUpTabView();
@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpTabView() {
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(HomeFragment.class.getName());
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TabFragment.class.getName());
         if (fragment == null) {
-            fragment = HomeFragment.newInstance();
+            fragment = TabFragment.newInstance();
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         currentFragment = fragment;
         fragmentTransaction
-                .replace(R.id.main_content, currentFragment, HomeFragment.class.getName())
+                .replace(R.id.main_content, currentFragment, TabFragment.class.getName())
                 .attach(currentFragment)
                 .commit();
     }
