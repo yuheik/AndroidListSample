@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="scroll_tab_text_normal_color">#74899e</color>
+    <color name="scroll_tab_text_select_color">#173a5e</color>
+    <color name="scroll_tab_background_color">#ffffff</color>
+    <color name="scroll_tab_indicator_color">#173a5e</color>
+
+    <color name="issue_title_text_color">#173a5e</color>
+    <color name="issue_name_text_color">#173a5e</color>
+    <color name="issue_description_text_color">#173a5e</color>
+    <color name="issue_name_and_date_text_color">#74899e</color>
+    <color name="issue_delete_button_background_color">#ff8800</color>
+    <color name="issue_cancel_button_border_color">#173a5e</color>
+    <color name="issue_delete_button_text_color">#ffffff</color>
+    <color name="issue_cancel_button_text_color">#173a5e</color>
+    <color name="issue_item_line_color">#74899e</color>
+    <color name="ranking_item_order_text_color">#ffffff</color>
+</resources>
