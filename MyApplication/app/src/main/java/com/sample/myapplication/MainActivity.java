@@ -7,7 +7,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-public class TabActivity extends AppCompatActivity {
+import com.sample.myapplication.Fragments.TabFragment;
+import com.sample.myapplication.Utils.LogUtil;
+
+public class MainActivity extends AppCompatActivity {
 
     Fragment currentFragment;
 

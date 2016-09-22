@@ -1,4 +1,4 @@
-package com.sample.myapplication;
+package com.sample.myapplication.Fragments;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import com.sample.myapplication.R;
 
 import java.util.List;
 

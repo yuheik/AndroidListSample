@@ -1,4 +1,4 @@
-package com.sample.myapplication;
+package com.sample.myapplication.Utils;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.sample.myapplication.BuildConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
