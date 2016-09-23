@@ -81,9 +81,8 @@ public class TabFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position % 2 == 0) {
-                return GridFragment.newInstance(GridFragment.TYPE.NUMBER);
+                return GridFragment.newInstance();
             } else {
-                //return GridFragment.newInstance(GridFragment.TYPE.ALPHABET);
                 return ListFragment.newInstance();
             }
         }

@@ -1,7 +1,6 @@
 package com.sample.myapplication.Fragments;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,27 +11,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sample.myapplication.Utils.LogUtil;
+import com.sample.myapplication.FlickrManager;
 import com.sample.myapplication.R;
+import com.sample.myapplication.Utils.LogUtil;
 import com.squareup.picasso.Picasso;
 
-import java.util.Arrays;
-
 public class GridFragment extends Fragment {
-    enum TYPE {
-        NUMBER,
-        ALPHABET
-    }
-    private static final String KEY_TYPE = "key_type";
-
     GridAdapter gridAdapter;
-    TYPE type;
 
-    public static GridFragment newInstance(TYPE type) {
+    public static GridFragment newInstance() {
         GridFragment fragment = new GridFragment();
 
         Bundle args = new Bundle();
-        args.putSerializable(KEY_TYPE, type);
         fragment.setArguments(args);
 
         return fragment;
@@ -42,8 +32,6 @@ public class GridFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            type = (TYPE) getArguments().get(KEY_TYPE);
-            LogUtil.debug("type : " + this.type);
         }
 
         gridAdapter = new GridAdapter();
@@ -75,43 +63,21 @@ public class GridFragment extends Fragment {
     }
 
     private void setData() {
-        new AsyncTask<Object, Object, Object>() {
+        FlickrManager.search("Android", new FlickrManager.PhotosListener() {
             @Override
-            protected Object doInBackground(Object[] objects) {
-                LogUtil.traceFunc();
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    LogUtil.error(e);
-                }
-                return null;
+            public void get(@Nullable FlickrManager.Photos photos) {
+                LogUtil.debug("photos.size : " + photos.getPhotos().size());
+                gridAdapter.setData(photos.getPhotos());
             }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                LogUtil.traceFunc();
-                switch (type) {
-                    case NUMBER:
-                        gridAdapter.setData(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"));
-                        break;
-                    case ALPHABET:
-                        gridAdapter.setData(Arrays.asList("A", "B", "C", "D", "E"));
-                        break;
-                    default:
-                        LogUtil.error("No such type " + type);
-                        break;
-                }
-            }
-        }.execute();
+        });
     }
 
-    class GridAdapter extends RecyclerViewAdapter<ItemViewHolder, String> {
+    class GridAdapter extends RecyclerViewAdapter<ItemViewHolder, FlickrManager.Photo> {
         Context context;
 
         @Override
-        protected boolean isDataEqual(String lhs, String rhs) {
-            return lhs.equalsIgnoreCase(rhs);
+        protected boolean isDataEqual(FlickrManager.Photo lhs, FlickrManager.Photo rhs) {
+            return lhs.getId().equals(rhs.getId());
         }
 
         @Override
@@ -124,8 +90,10 @@ public class GridFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ItemViewHolder holder, int position) {
-            Picasso.with(context).load(R.mipmap.ic_launcher).into(holder.image);
-            holder.index.setText(data.get(position));
+            LogUtil.debug(data.get(position).getTitle() + " " + data.get(position).getUrl());
+
+            Picasso.with(context).load(data.get(position).getUrl()).into(holder.image);
+            holder.index.setText(data.get(position).getTitle());
         }
     }
 

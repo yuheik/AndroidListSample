@@ -1,7 +1,6 @@
 package com.sample.myapplication.Fragments;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sample.myapplication.Utils.LogUtil;
+import com.sample.myapplication.FlickrManager;
 import com.sample.myapplication.R;
 import com.squareup.picasso.Picasso;
-
-import java.util.Arrays;
 
 public class ListFragment extends Fragment {
 
@@ -66,33 +63,20 @@ public class ListFragment extends Fragment {
     }
 
     private void setData() {
-        new AsyncTask<Object, Object, Object>() {
+        FlickrManager.search("Apple", new FlickrManager.PhotosListener() {
             @Override
-            protected Object doInBackground(Object[] objects) {
-                LogUtil.traceFunc();
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    LogUtil.error(e);
-                }
-                return null;
+            public void get(@Nullable FlickrManager.Photos photos) {
+                myListAdapter.setData(photos.getPhotos());
             }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                LogUtil.traceFunc();
-                myListAdapter.setData(Arrays.asList("one", "two", "three", "four", "five"));
-            }
-        }.execute();
+        });
     }
 
-    class MyListAdapter extends RecyclerViewAdapter<ItemViewHolder, String> {
+    class MyListAdapter extends RecyclerViewAdapter<ItemViewHolder, FlickrManager.Photo> {
         Context context;
 
         @Override
-        protected boolean isDataEqual(String lhs, String rhs) {
-            return lhs.equalsIgnoreCase(rhs);
+        protected boolean isDataEqual(FlickrManager.Photo lhs, FlickrManager.Photo rhs) {
+            return lhs.getId().equals(rhs.getId());
         }
 
         @Override
@@ -105,13 +89,15 @@ public class ListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ItemViewHolder holder, int position) {
-            holder.description.setText(data.get(position));
-            holder.titleName.setText(data.get(position));
-            holder.issueName.setText(data.get(position));
-            holder.description.setText(data.get(position));
-            holder.issueDate.setText(data.get(position));
+            FlickrManager.Photo photo = data.get(position);
 
-            Picasso.with(context).load(R.mipmap.ic_launcher).into(holder.coverImage);
+            holder.description.setText("dummy");
+            holder.titleName.setText(photo.getTitle());
+            holder.issueName.setText(photo.getOwner());
+            holder.description.setText(photo.getSecret());
+            holder.issueDate.setText("dummy");
+
+            Picasso.with(context).load(photo.getUrl()).into(holder.coverImage);
         }
     }
 
@@ -134,5 +120,4 @@ public class ListFragment extends Fragment {
             issueDate = (TextView) itemView.findViewById(R.id.issue_date);
         }
     }
-
 }
