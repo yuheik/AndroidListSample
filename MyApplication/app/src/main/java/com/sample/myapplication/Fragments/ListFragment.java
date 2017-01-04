@@ -9,12 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.sample.myapplication.FlickrManager;
+import com.sample.myapplication.PhotoViewHolder;
 import com.sample.myapplication.R;
-import com.squareup.picasso.Picasso;
 
 public class ListFragment extends Fragment {
 
@@ -84,44 +82,12 @@ public class ListFragment extends Fragment {
             context = parent.getContext();
 
             View itemView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
-            return new ItemViewHolder(itemView, getContext());
+            return new PhotoViewHolder(itemView, getContext());
         }
 
         @Override
         public void onBindViewHolder(ItemViewHolder holder, int position) {
             holder.bind(data.get(position));
-        }
-    }
-
-    class ItemViewHolder extends RecyclerView.ViewHolder {
-        public Context context;
-
-        public ImageView coverImage;
-        public TextView rankingItemOrder;
-        public TextView titleName;
-        public TextView issueName;
-        public TextView description;
-        public TextView issueDate;
-
-        public ItemViewHolder(View itemView, Context context) {
-            super(itemView);
-
-            this.context = context;
-            this.coverImage = (ImageView) itemView.findViewById(R.id.cover_image);
-            this.rankingItemOrder = (TextView) itemView.findViewById(R.id.ranking_item_order);
-            this.titleName = (TextView) itemView.findViewById(R.id.title_name);
-            this.issueName = (TextView) itemView.findViewById(R.id.issue_name);
-            this.description = (TextView) itemView.findViewById(R.id.description);
-            this.issueDate = (TextView) itemView.findViewById(R.id.issue_date);
-        }
-
-        public void bind(FlickrManager.Photo photo) {
-            Picasso.with(context).load(photo.getUrl()).into(coverImage);
-            description.setText("dummy");
-            titleName.setText(photo.getTitle());
-            issueName.setText(photo.getOwner());
-            description.setText(photo.getSecret());
-            issueDate.setText("dummy");
         }
     }
 }

@@ -5,11 +5,11 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/item_image"
         android:layout_width="110dp"
         android:layout_height="152dp"
         android:layout_gravity="center"
-        android:scaleType="fitEnd"
-        android:id="@+id/item_image" />
+        android:scaleType="fitEnd" />
 
     <FrameLayout
         android:layout_marginTop="7dp"
@@ -19,12 +19,12 @@
         android:layout_gravity="center">
 
         <TextView
+            android:id="@+id/item_title"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_gravity="left"
             android:gravity="center"
-            android:textSize="10sp"
-            android:id="@+id/item_index" />
+            android:textSize="10sp" />
 
     </FrameLayout>
 

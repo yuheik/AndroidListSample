@@ -8,13 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.sample.myapplication.FlickrManager;
+import com.sample.myapplication.PhotoViewHolder;
 import com.sample.myapplication.R;
 import com.sample.myapplication.Utils.LogUtil;
-import com.squareup.picasso.Picasso;
 
 public class GridFragment extends Fragment {
     GridAdapter gridAdapter;
@@ -85,33 +83,13 @@ public class GridFragment extends Fragment {
             context = parent.getContext();
 
             View itemView = LayoutInflater.from(context).inflate(R.layout.grid_item, parent, false);
-            return new ItemViewHolder(itemView, getContext());
+            return new PhotoViewHolder(itemView, getContext());
         }
 
         @Override
         public void onBindViewHolder(ItemViewHolder holder, int position) {
             LogUtil.debug(data.get(position).getTitle() + " " + data.get(position).getUrl());
             holder.bind(data.get(position));
-        }
-    }
-
-    class ItemViewHolder extends RecyclerView.ViewHolder {
-        Context context;
-
-        ImageView image;
-        TextView index;
-
-        public ItemViewHolder(View itemView, Context context) {
-            super(itemView);
-
-            this.context = context;
-            this.image = (ImageView) itemView.findViewById(R.id.item_image);
-            this.index = (TextView) itemView.findViewById(R.id.item_index);
-        }
-
-        public void bind(FlickrManager.Photo photo) {
-            Picasso.with(context).load(photo.getUrl()).into(image);
-            index.setText(photo.getTitle());
         }
     }
 }
