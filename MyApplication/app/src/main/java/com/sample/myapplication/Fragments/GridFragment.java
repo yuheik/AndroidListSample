@@ -85,26 +85,33 @@ public class GridFragment extends Fragment {
             context = parent.getContext();
 
             View itemView = LayoutInflater.from(context).inflate(R.layout.grid_item, parent, false);
-            return new ItemViewHolder(itemView);
+            return new ItemViewHolder(itemView, getContext());
         }
 
         @Override
         public void onBindViewHolder(ItemViewHolder holder, int position) {
             LogUtil.debug(data.get(position).getTitle() + " " + data.get(position).getUrl());
-
-            Picasso.with(context).load(data.get(position).getUrl()).into(holder.image);
-            holder.index.setText(data.get(position).getTitle());
+            holder.bind(data.get(position));
         }
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
+        Context context;
+
         ImageView image;
         TextView index;
 
-        public ItemViewHolder(View itemView) {
+        public ItemViewHolder(View itemView, Context context) {
             super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.item_image);
-            index = (TextView) itemView.findViewById(R.id.item_index);
+
+            this.context = context;
+            this.image = (ImageView) itemView.findViewById(R.id.item_image);
+            this.index = (TextView) itemView.findViewById(R.id.item_index);
+        }
+
+        public void bind(FlickrManager.Photo photo) {
+            Picasso.with(context).load(photo.getUrl()).into(image);
+            index.setText(photo.getTitle());
         }
     }
 }

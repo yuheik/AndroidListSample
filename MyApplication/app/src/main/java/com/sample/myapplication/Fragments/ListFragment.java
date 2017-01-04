@@ -84,24 +84,18 @@ public class ListFragment extends Fragment {
             context = parent.getContext();
 
             View itemView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
-            return new ItemViewHolder(itemView);
+            return new ItemViewHolder(itemView, getContext());
         }
 
         @Override
         public void onBindViewHolder(ItemViewHolder holder, int position) {
-            FlickrManager.Photo photo = data.get(position);
-
-            holder.description.setText("dummy");
-            holder.titleName.setText(photo.getTitle());
-            holder.issueName.setText(photo.getOwner());
-            holder.description.setText(photo.getSecret());
-            holder.issueDate.setText("dummy");
-
-            Picasso.with(context).load(photo.getUrl()).into(holder.coverImage);
+            holder.bind(data.get(position));
         }
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
+        public Context context;
+
         public ImageView coverImage;
         public TextView rankingItemOrder;
         public TextView titleName;
@@ -109,15 +103,25 @@ public class ListFragment extends Fragment {
         public TextView description;
         public TextView issueDate;
 
-        public ItemViewHolder(View itemView) {
+        public ItemViewHolder(View itemView, Context context) {
             super(itemView);
 
-            coverImage = (ImageView) itemView.findViewById(R.id.cover_image);
-            rankingItemOrder = (TextView) itemView.findViewById(R.id.ranking_item_order);
-            titleName = (TextView) itemView.findViewById(R.id.title_name);
-            issueName = (TextView) itemView.findViewById(R.id.issue_name);
-            description = (TextView) itemView.findViewById(R.id.description);
-            issueDate = (TextView) itemView.findViewById(R.id.issue_date);
+            this.context = context;
+            this.coverImage = (ImageView) itemView.findViewById(R.id.cover_image);
+            this.rankingItemOrder = (TextView) itemView.findViewById(R.id.ranking_item_order);
+            this.titleName = (TextView) itemView.findViewById(R.id.title_name);
+            this.issueName = (TextView) itemView.findViewById(R.id.issue_name);
+            this.description = (TextView) itemView.findViewById(R.id.description);
+            this.issueDate = (TextView) itemView.findViewById(R.id.issue_date);
+        }
+
+        public void bind(FlickrManager.Photo photo) {
+            Picasso.with(context).load(photo.getUrl()).into(coverImage);
+            description.setText("dummy");
+            titleName.setText(photo.getTitle());
+            issueName.setText(photo.getOwner());
+            description.setText(photo.getSecret());
+            issueDate.setText("dummy");
         }
     }
 }
