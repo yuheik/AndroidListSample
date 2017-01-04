@@ -41,7 +41,7 @@ public class TabFragment extends Fragment {
         ViewPager viewPager = setupViewPager(rootView);
         TabLayout tabLayout = setupTabLayout(rootView, viewPager);
 
-        tabLayout.getTabAt(1).select();
+        tabLayout.getTabAt(0).select();
 
         return rootView;
     }
