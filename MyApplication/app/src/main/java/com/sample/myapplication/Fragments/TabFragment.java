@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sample.myapplication.R;
+import com.sample.myapplication.RecentFragment;
+import com.sample.myapplication.SearchFragment;
 
 
 public class TabFragment extends Fragment {
@@ -81,9 +83,9 @@ public class TabFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position % 2 == 0) {
-                return GridFragment.newInstance();
+                return new SearchFragment();
             } else {
-                return ListFragment.newInstance();
+                return new RecentFragment();
             }
         }
 

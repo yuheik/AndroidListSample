@@ -25,6 +25,10 @@ public class FlickrManager {
         requestJSON(searchAPI(keyword), photosListener);
     }
 
+    public static void recent(final PhotosListener photosListener) {
+        requestJSON(recentAPI(), photosListener);
+    }
+
     private static String flickrAPI(String apiName, String... params) {
         String url = EndPoint +
                      "?method=" + apiName +
@@ -146,7 +150,7 @@ public class FlickrManager {
                 this.url_o = data.getString("url_o");
                 this.url_m = data.getString("url_m");
             } catch (JSONException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
 

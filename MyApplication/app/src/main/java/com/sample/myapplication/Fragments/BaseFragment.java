@@ -14,9 +14,9 @@ import com.sample.myapplication.R;
 public abstract class BaseFragment extends Fragment {
     protected RecyclerViewAdapter recyclerViewAdapter;
 
+    abstract protected boolean isListView();
     abstract protected int getLayoutId();
     abstract protected RecyclerViewAdapter getRecyclerViewAdapter();
-    abstract protected boolean isListView();
     abstract protected void setData();
 
     @Override
