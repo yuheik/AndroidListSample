@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpTabView() {
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(TabFragment.class.getName());
         if (fragment == null) {
-            fragment = TabFragment.newInstance();
+            fragment = MainTabFragment.newInstance();
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();

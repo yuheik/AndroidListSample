@@ -12,19 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sample.myapplication.R;
-import com.sample.myapplication.RecentFragment;
-import com.sample.myapplication.SearchFragment;
 
 
-public class TabFragment extends Fragment {
+public abstract class TabFragment extends Fragment {
     private TabAdapter tabAdapter;
 
-    public static TabFragment newInstance() {
-        TabFragment fragment = new TabFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    abstract protected TabAdapter getTabAdapter(FragmentManager fragmentManager);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +25,7 @@ public class TabFragment extends Fragment {
         if (getArguments() != null) {
         }
 
-        tabAdapter = new TabAdapter(getChildFragmentManager());
+        tabAdapter = getTabAdapter(getChildFragmentManager());
     }
 
     @Override
@@ -69,7 +62,7 @@ public class TabFragment extends Fragment {
         return tabLayout;
     }
 
-    static class TabItem {
+    public static class TabItem {
         private Class clz;
         private String title;
 
@@ -79,11 +72,8 @@ public class TabFragment extends Fragment {
         }
     }
 
-    static class TabAdapter extends FragmentStatePagerAdapter {
-        TabItem[] tabItems = {
-                new TabItem(SearchFragment.class, "SEARCH"),
-                new TabItem(RecentFragment.class, "RECENT")
-        };
+    public static abstract class TabAdapter extends FragmentStatePagerAdapter {
+        abstract protected TabItem[] getTabItems();
 
         public TabAdapter(FragmentManager fm) {
             super(fm);
@@ -91,17 +81,15 @@ public class TabFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return tabItems.length;
+            return getTabItems().length;
         }
 
         @Override
         public Fragment getItem(int position) {
             Fragment fragment = null;
             try {
-                fragment = (Fragment) tabItems[position].clz.newInstance();
-            } catch (java.lang.InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+                fragment = (Fragment) getTabItems()[position].clz.newInstance();
+            } catch (java.lang.InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
             return fragment;
@@ -109,7 +97,7 @@ public class TabFragment extends Fragment {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return tabItems[position].title;
+            return getTabItems()[position].title;
         }
     }
 }
