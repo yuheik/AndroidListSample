@@ -69,30 +69,47 @@ public class TabFragment extends Fragment {
         return tabLayout;
     }
 
+    static class TabItem {
+        private Class clz;
+        private String title;
 
-    class TabAdapter extends FragmentStatePagerAdapter {
+        public TabItem(Class clz, String title) {
+            this.clz = clz;
+            this.title = title;
+        }
+    }
+
+    static class TabAdapter extends FragmentStatePagerAdapter {
+        TabItem[] tabItems = {
+                new TabItem(SearchFragment.class, "SEARCH"),
+                new TabItem(RecentFragment.class, "RECENT")
+        };
+
         public TabAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return tabItems.length;
         }
 
         @Override
         public Fragment getItem(int position) {
-            if (position % 2 == 0) {
-                return new SearchFragment();
-            } else {
-                return new RecentFragment();
+            Fragment fragment = null;
+            try {
+                fragment = (Fragment) tabItems[position].clz.newInstance();
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
+            return fragment;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-//            return super.getPageTitle(position);
-            return "hogehoge" + position;
+            return tabItems[position].title;
         }
     }
 }
