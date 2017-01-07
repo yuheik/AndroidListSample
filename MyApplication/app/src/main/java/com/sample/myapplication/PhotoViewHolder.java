@@ -1,11 +1,14 @@
 package com.sample.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sample.myapplication.Fragments.ItemViewHolder;
+import com.sample.myapplication.Utils.LogUtil;
 
 public class PhotoViewHolder extends ItemViewHolder<FlickrManager.Photo> {
     private ImageView image;
@@ -27,11 +30,21 @@ public class PhotoViewHolder extends ItemViewHolder<FlickrManager.Photo> {
     }
 
     @Override
-    public void bind(FlickrManager.Photo photo) {
+    public void bind(final FlickrManager.Photo photo) {
         setImage(image, photo.getUrl());
         setText(title, photo.getTitle());
         setText(subTitle, photo.getOwner());
         setText(description, photo.getSecret());
         setText(date, photo.getUrl());
+
+        setClickListener(image, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LogUtil.debug(photo.getTitle());
+                Intent intent = new Intent(context, ViewerActivity.class);
+                intent.setData(Uri.parse(photo.getUrl()));
+                context.startActivity(intent);
+            }
+        });
     }
 }

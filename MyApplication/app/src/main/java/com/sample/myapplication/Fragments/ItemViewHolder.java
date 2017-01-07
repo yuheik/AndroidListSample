@@ -29,4 +29,10 @@ public abstract class ItemViewHolder<T> extends RecyclerView.ViewHolder {
             view.setText(text);
         }
     }
+
+    protected void setClickListener(View view, View.OnClickListener clickListener) {
+        if (view != null) {
+            view.setOnClickListener(clickListener);
+        }
+    }
 }
