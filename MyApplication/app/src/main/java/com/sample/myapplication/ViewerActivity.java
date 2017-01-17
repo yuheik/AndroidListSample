@@ -2,17 +2,19 @@ package com.sample.myapplication;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.sample.myapplication.Utils.LogUtil;
-import com.sample.myapplication.Utils.OnSwipeTouchListener;
-import com.squareup.picasso.Picasso;
 
 public class ViewerActivity extends AppCompatActivity {
     Uri uri;
-    ImageView image;
+    ViewPager viewPager;
+    PagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,20 +23,28 @@ public class ViewerActivity extends AppCompatActivity {
 
         this.uri = getIntent().getData();
         LogUtil.debug("uri : " + uri);
-        this.image = (ImageView) findViewById(R.id.viewer_image);
+        this.viewPager = (ViewPager) findViewById(R.id.viewer_pager);
 
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.activity_viewer);
-        relativeLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
-            @Override
-            public void onSwipeDown() {
-                finish();
-            }
-        });
+        this.pagerAdapter = new ViewerPagerAdapter(getSupportFragmentManager(), this.uri);
+        this.viewPager.setAdapter(this.pagerAdapter);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Picasso.with(this).load(this.uri).into(this.image);
+    static class ViewerPagerAdapter extends FragmentStatePagerAdapter {
+        String uri;
+
+        public ViewerPagerAdapter(FragmentManager fm, Uri uri) {
+            super(fm);
+            this.uri = uri.toString();
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return ImagerFragment.newInstance(this.uri);
+        }
     }
 }

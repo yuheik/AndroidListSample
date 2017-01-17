@@ -11,10 +11,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.sample.myapplication.ViewerActivity">
 
-    <ImageView
-        android:id="@+id/viewer_image"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewer_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="match_parent" />
+
 </RelativeLayout>
