@@ -19,6 +19,6 @@ public abstract class ItemViewAdapter<T> extends RecyclerViewAdapter<ItemViewHol
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        holder.bind(data.get(position));
+        holder.bind(data.get(position), position);
     }
 }

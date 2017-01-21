@@ -16,7 +16,7 @@ public abstract class ItemViewHolder<T> extends RecyclerView.ViewHolder {
         this.context = context;
     }
 
-    public abstract void bind(T t);
+    public abstract void bind(T t, int position);
 
     protected void setImage(ImageView view, String url) {
         if (view != null) {

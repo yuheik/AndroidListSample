@@ -34,7 +34,7 @@ public class PhotoViewHolder extends ItemViewHolder<FlickrManager.Photo> {
     }
 
     @Override
-    public void bind(final FlickrManager.Photo photo) {
+    public void bind(final FlickrManager.Photo photo, final int position) {
         setImage(image, photo.getUrl());
         setText(title, photo.getTitle());
         setText(subTitle, photo.getOwner());
@@ -48,6 +48,7 @@ public class PhotoViewHolder extends ItemViewHolder<FlickrManager.Photo> {
                 Intent intent = new Intent(context, ViewerActivity.class);
                 intent.setData(Uri.parse(photo.getUrl()));
                 intent.putExtra(ViewerActivity.FLICKER_ACTION_TYPE, type);
+                intent.putExtra(ViewerActivity.FLICKER_DATA_POSITION, position);
                 context.startActivity(intent);
             }
         });
