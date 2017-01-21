@@ -30,10 +30,12 @@ public class FlickrManager {
     }
 
     public static void search(final String keyword, final PhotosListener photosListener) {
+        resultSearch.clear();
         requestJSON(searchAPI(keyword), resultSearch, photosListener);
     }
 
     public static void recent(final PhotosListener photosListener) {
+        resultRecent.clear();
         requestJSON(recentAPI(), resultRecent, photosListener);
     }
 

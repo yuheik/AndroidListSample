@@ -12,12 +12,15 @@ import android.view.ViewGroup;
 import com.sample.myapplication.R;
 
 public abstract class BaseFragment extends Fragment {
+    protected RecyclerView recyclerView;
     protected RecyclerViewAdapter recyclerViewAdapter;
 
     abstract protected boolean isListView();
     abstract protected int getLayoutId();
     abstract protected RecyclerViewAdapter getRecyclerViewAdapter();
     abstract protected void setData();
+
+    protected void setupView(View rootView) {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,9 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(getLayoutId(), container, false);
-        RecyclerView recyclerView = setupRecyclerView(rootView);
+        recyclerView = setupRecyclerView(rootView);
+
+        setupView(rootView);
 
         return rootView;
     }
