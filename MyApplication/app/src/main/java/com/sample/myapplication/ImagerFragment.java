@@ -6,8 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.sample.myapplication.Utils.OnSwipeTouchListener;
 import com.squareup.picasso.Picasso;
@@ -16,12 +17,12 @@ import com.squareup.picasso.Picasso;
 public class ImagerFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
 
-    private String uri;
+    private FlickrManager.Photo photo;
 
-    public static ImagerFragment newInstance(String param1) {
+    public static ImagerFragment newInstance(FlickrManager.Photo photo) {
         ImagerFragment fragment = new ImagerFragment();
         Bundle         args     = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putSerializable(ARG_PARAM1, photo);
         fragment.setArguments(args);
         return fragment;
     }
@@ -30,7 +31,7 @@ public class ImagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            uri = getArguments().getString(ARG_PARAM1);
+            photo = (FlickrManager.Photo) getArguments().getSerializable(ARG_PARAM1);
         }
     }
 
@@ -40,17 +41,20 @@ public class ImagerFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.imager_fragment, container, false);
 
         ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView);
-        Picasso.with(this.getContext()).load(this.uri).into(imageView);
+        Picasso.with(this.getContext()).load(this.photo.getUrl()).into(imageView);
 
         final Activity parent = this.getActivity();
 
-        FrameLayout frameLayout = (FrameLayout) rootView.findViewById(R.id.imager_fragment);
-        frameLayout.setOnTouchListener(new OnSwipeTouchListener(parent) {
+        LinearLayout linearLayout = (LinearLayout) rootView.findViewById(R.id.imager_fragment);
+        linearLayout.setOnTouchListener(new OnSwipeTouchListener(parent) {
             @Override
             public void onSwipeDown() {
                 parent.finish();
             }
         });
+
+        ((TextView) rootView.findViewById(R.id.title)).setText(this.photo.getTitle());
+        ((TextView) rootView.findViewById(R.id.author)).setText("by " + this.photo.getOwner());
 
         return rootView;
     }

@@ -51,7 +51,7 @@ public class ViewerActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ImagerFragment.newInstance(data.get(position).getUrl());
+            return ImagerFragment.newInstance(data.get(position));
         }
     }
 }
