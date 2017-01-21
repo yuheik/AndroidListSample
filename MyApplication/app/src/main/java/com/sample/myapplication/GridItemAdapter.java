@@ -7,6 +7,12 @@ import com.sample.myapplication.Fragments.ItemViewAdapter;
 import com.sample.myapplication.Fragments.ItemViewHolder;
 
 public class GridItemAdapter extends ItemViewAdapter<FlickrManager.Photo> {
+    private FlickrManager.Type type;
+
+    public GridItemAdapter(FlickrManager.Type type) {
+        super();
+        this.type = type;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -15,7 +21,7 @@ public class GridItemAdapter extends ItemViewAdapter<FlickrManager.Photo> {
 
     @Override
     protected ItemViewHolder getItemViewHolder(View itemView, Context context) {
-        return new PhotoViewHolder(itemView, context);
+        return new PhotoViewHolder(itemView, context, this.type);
     }
 
     @Override

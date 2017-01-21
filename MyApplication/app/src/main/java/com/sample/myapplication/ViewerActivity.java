@@ -12,7 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import com.sample.myapplication.Utils.LogUtil;
 
 public class ViewerActivity extends AppCompatActivity {
+    public static final String FLICKER_ACTION_TYPE = "FlickerActionType";
+
     Uri uri;
+    FlickrManager.Type type;
     ViewPager viewPager;
     PagerAdapter pagerAdapter;
 
@@ -23,8 +26,10 @@ public class ViewerActivity extends AppCompatActivity {
 
         this.uri = getIntent().getData();
         LogUtil.debug("uri : " + uri);
-        this.viewPager = (ViewPager) findViewById(R.id.viewer_pager);
+        this.type = (FlickrManager.Type) getIntent().getSerializableExtra(FLICKER_ACTION_TYPE);
+        LogUtil.debug("type : " + type);
 
+        this.viewPager = (ViewPager) findViewById(R.id.viewer_pager);
         this.pagerAdapter = new ViewerPagerAdapter(getSupportFragmentManager(), this.uri);
         this.viewPager.setAdapter(this.pagerAdapter);
     }

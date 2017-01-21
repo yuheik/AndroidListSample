@@ -11,6 +11,8 @@ import com.sample.myapplication.Fragments.ItemViewHolder;
 import com.sample.myapplication.Utils.LogUtil;
 
 public class PhotoViewHolder extends ItemViewHolder<FlickrManager.Photo> {
+    private FlickrManager.Type type;
+
     private ImageView image;
     private TextView title;
     private TextView subTitle;
@@ -18,8 +20,10 @@ public class PhotoViewHolder extends ItemViewHolder<FlickrManager.Photo> {
     private TextView date;
     private TextView rankingItemOrder;
 
-    public PhotoViewHolder(View itemView, Context context) {
+    public PhotoViewHolder(View itemView, Context context, FlickrManager.Type type) {
         super(itemView, context);
+
+        this.type = type;
 
         this.image = (ImageView) itemView.findViewById(R.id.item_image);
         this.title = (TextView) itemView.findViewById(R.id.item_title);
@@ -43,6 +47,7 @@ public class PhotoViewHolder extends ItemViewHolder<FlickrManager.Photo> {
                 LogUtil.debug(photo.getTitle());
                 Intent intent = new Intent(context, ViewerActivity.class);
                 intent.setData(Uri.parse(photo.getUrl()));
+                intent.putExtra(ViewerActivity.FLICKER_ACTION_TYPE, type);
                 context.startActivity(intent);
             }
         });

@@ -13,7 +13,7 @@ public class RecentFragment extends GridFragment {
 
     @Override
     protected RecyclerViewAdapter getRecyclerViewAdapter() {
-        return new GridItemAdapter();
+        return new GridItemAdapter(FlickrManager.Type.RECENT);
     }
 
     @Override

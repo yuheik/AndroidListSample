@@ -12,6 +12,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class FlickrManager {
+    public enum Type {
+        SEARCH,
+        RECENT,
+    }
+
     static final String ApiKey = "56550df01e50dba4228b82e187629d23";
     static final String ApiSecret = "b8e7d24b424bd775";
 
