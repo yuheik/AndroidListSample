@@ -19,19 +19,29 @@ public class FlickrManager {
 
     static final String ApiKey = "56550df01e50dba4228b82e187629d23";
     static final String ApiSecret = "b8e7d24b424bd775";
-
     static final String EndPoint = "https://api.flickr.com/services/rest/";
+
+    private static ArrayList<Photo> resultSearch = new ArrayList<>();
+    private static ArrayList<Photo> resultRecent = new ArrayList<>();
 
     public interface PhotosListener {
         void get(@Nullable Photos photos);
     }
 
     public static void search(final String keyword, final PhotosListener photosListener) {
-        requestJSON(searchAPI(keyword), photosListener);
+        requestJSON(searchAPI(keyword), resultSearch, photosListener);
     }
 
     public static void recent(final PhotosListener photosListener) {
-        requestJSON(recentAPI(), photosListener);
+        requestJSON(recentAPI(), resultRecent, photosListener);
+    }
+
+    public static ArrayList<Photo> getResult(FlickrManager.Type type) {
+        switch (type) {
+            case SEARCH: return resultSearch;
+            case RECENT: return resultRecent;
+        }
+        return null;
     }
 
     private static String flickrAPI(String apiName, String... params) {
@@ -56,12 +66,14 @@ public class FlickrManager {
         return flickrAPI("flickr.photos.getRecent");
     }
 
-    private static void requestJSON(String urlString, final PhotosListener photosListener) {
+    private static void requestJSON(String urlString, final ArrayList<Photo> resultData, final PhotosListener photosListener) {
         NetworkUtil.request(urlString, new NetworkUtil.RequestListener() {
             @Override
             public void onResult(String result) {
                 LogUtil.debug(result);
-                photosListener.get(parseFlickrApiResult(result));
+                Photos photos = parseFlickrApiResult(result);
+                resultData.addAll(photos.getPhotos());
+                photosListener.get(photos);
             }
         });
     }

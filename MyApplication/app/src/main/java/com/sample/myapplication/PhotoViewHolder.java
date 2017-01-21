@@ -2,7 +2,6 @@ package com.sample.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,10 +44,11 @@ public class PhotoViewHolder extends ItemViewHolder<FlickrManager.Photo> {
             @Override
             public void onClick(View view) {
                 LogUtil.debug(photo.getTitle());
+
                 Intent intent = new Intent(context, ViewerActivity.class);
-                intent.setData(Uri.parse(photo.getUrl()));
                 intent.putExtra(ViewerActivity.FLICKER_ACTION_TYPE, type);
                 intent.putExtra(ViewerActivity.FLICKER_DATA_POSITION, position);
+
                 context.startActivity(intent);
             }
         });
