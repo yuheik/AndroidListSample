@@ -29,6 +29,10 @@ public abstract class RecyclerViewAdapter<T extends RecyclerView.ViewHolder, E> 
         this.emptyStateView = emptyStateView;
     }
 
+    /**
+     * Set adapter data.
+     * @param data @Note. Be sure not to pass the reference of original.
+     */
     public void setData(@Nullable List<E> data) {
         if (recyclerView != null && recyclerView.getVisibility() == View.GONE) {
             recyclerView.setVisibility(View.VISIBLE);

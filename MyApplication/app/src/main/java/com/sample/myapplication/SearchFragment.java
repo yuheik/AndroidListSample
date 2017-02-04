@@ -15,9 +15,12 @@ import com.sample.myapplication.Fragments.RecyclerViewAdapter;
 import com.sample.myapplication.Utils.LogUtil;
 import com.sample.myapplication.Utils.UIUtil;
 
+import java.util.ArrayList;
+
 public class SearchFragment extends GridFragment {
     private String currentKeyword = "";
     private EditText editText;
+    private int page = 1;
 
     @Override
     protected int getLayoutId() {
@@ -76,13 +79,8 @@ public class SearchFragment extends GridFragment {
 
     private void search(String keyword) {
         currentKeyword = keyword;
-        FlickrManager.search(keyword, new FlickrManager.PhotosListener() {
-            @Override
-            public void get(@Nullable FlickrManager.Photos photos) {
-                recyclerView.smoothScrollToPosition(0);
-                recyclerViewAdapter.setData(photos.getPhotos());
-            }
-        });
+        page = 1;
+        loadSearchData(page);
 
         UIUtil.hideKeyboard(editText);
     }
@@ -90,5 +88,26 @@ public class SearchFragment extends GridFragment {
     @Override
     protected void setData() {
         recyclerViewAdapter.setData(null);
+    }
+
+    @Override
+    protected void loadNextData() {
+        // note: this implementation is hard to find out whether if it reaches the end.
+        page++;
+        loadSearchData(page);
+    }
+
+    private void loadSearchData(final int pageIndex) {
+        startDataLoading();
+        FlickrManager.search(currentKeyword, pageIndex, new FlickrManager.PhotosListener() {
+            @Override
+            public void get(@Nullable ArrayList<FlickrManager.Photo> photos) {
+                if (pageIndex == 1) {
+                    recyclerView.smoothScrollToPosition(0);
+                }
+                recyclerViewAdapter.setData(photos);
+                finishDataLoading();
+            }
+        });
     }
 }

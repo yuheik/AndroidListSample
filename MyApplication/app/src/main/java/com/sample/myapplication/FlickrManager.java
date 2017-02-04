@@ -26,17 +26,21 @@ public class FlickrManager {
     private static ArrayList<Photo> resultRecent = new ArrayList<>();
 
     public interface PhotosListener {
-        void get(@Nullable Photos photos);
+        void get(@Nullable ArrayList<Photo> photos);
     }
 
-    public static void search(final String keyword, final PhotosListener photosListener) {
-        resultSearch.clear();
-        requestJSON(searchAPI(keyword), resultSearch, photosListener);
+    public static void search(final String keyword, int page, final PhotosListener photosListener) {
+        if (page == 1) {
+            resultSearch.clear();
+        }
+        requestJSON(searchAPI(keyword, page), resultSearch, photosListener);
     }
 
-    public static void recent(final PhotosListener photosListener) {
-        resultRecent.clear();
-        requestJSON(recentAPI(), resultRecent, photosListener);
+    public static void recent(int page, final PhotosListener photosListener) {
+        if (page == 1) {
+            resultRecent.clear();
+        }
+        requestJSON(recentAPI(page), resultRecent, photosListener);
     }
 
     public static ArrayList<Photo> getResult(FlickrManager.Type type) {
@@ -47,11 +51,12 @@ public class FlickrManager {
         return null;
     }
 
-    private static String flickrAPI(String apiName, String... params) {
+    private static String flickrAPI(String apiName, int page, String... params) {
         String url = EndPoint +
                      "?method=" + apiName +
                      "&api_key=" + ApiKey +
                      "&per_page=" + 20 +
+                     "&page=" + page +
                      "&format=json" +
                      "&nojsoncallback=1";
         for (String param : params) {
@@ -61,12 +66,12 @@ public class FlickrManager {
         return url;
     }
 
-    private static String searchAPI(String keyword) {
-        return flickrAPI("flickr.photos.search", "text=" + keyword);
+    private static String searchAPI(String keyword, int page) {
+        return flickrAPI("flickr.photos.search", page, "text=" + keyword);
     }
 
-    private static String recentAPI() {
-        return flickrAPI("flickr.photos.getRecent");
+    private static String recentAPI(int page) {
+        return flickrAPI("flickr.photos.getRecent", page);
     }
 
     private static void requestJSON(String urlString, final ArrayList<Photo> resultData, final PhotosListener photosListener) {
@@ -76,7 +81,7 @@ public class FlickrManager {
                 LogUtil.debug(result);
                 Photos photos = parseFlickrApiResult(result);
                 resultData.addAll(photos.getPhotos());
-                photosListener.get(photos);
+                photosListener.get((ArrayList<Photo>) resultData.clone());
             }
         });
     }
