@@ -33,6 +33,11 @@ public class SearchFragment extends GridFragment {
     }
 
     @Override
+    protected boolean useSwipeRefresh() {
+        return false;
+    }
+
+    @Override
     protected void setupView(View rootView) {
         editText = setupEditText(rootView);
 

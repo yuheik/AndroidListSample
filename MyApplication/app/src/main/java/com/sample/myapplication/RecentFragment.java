@@ -21,6 +21,11 @@ public class RecentFragment extends GridFragment {
     }
 
     @Override
+    protected boolean useSwipeRefresh() {
+        return true;
+    }
+
+    @Override
     protected void setData() {
         page = 1;
         loadRecentData(page);
@@ -33,11 +38,20 @@ public class RecentFragment extends GridFragment {
         loadRecentData(page);
     }
 
-    private void loadRecentData(int pageIndex) {
+    @Override
+    protected void refreshData() {
+        page = 1;
+        loadRecentData(page);
+    }
+
+    private void loadRecentData(final int pageIndex) {
         startDataLoading();
         FlickrManager.recent(pageIndex, new FlickrManager.PhotosListener() {
             @Override
             public void get(@Nullable ArrayList<FlickrManager.Photo> photos) {
+                if (pageIndex == 1) {
+                    recyclerView.scrollToPosition(0);
+                }
                 recyclerViewAdapter.setData(photos);
                 finishDataLoading();
             }

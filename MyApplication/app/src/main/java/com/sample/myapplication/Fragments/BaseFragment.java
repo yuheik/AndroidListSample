@@ -1,8 +1,10 @@
 package com.sample.myapplication.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,26 +17,41 @@ import com.sample.myapplication.Utils.LogUtil;
 public abstract class BaseFragment extends Fragment {
     private static double LOAD_NEXT_THRESHOLD = 0.6;
 
+    protected SwipeRefreshLayout swipeRefreshLayout;
     protected RecyclerView recyclerView;
     protected RecyclerViewAdapter recyclerViewAdapter;
 
     private boolean onLoadingData = false;
 
     abstract protected boolean isListView();
+    /** must override refreshData() when using SwipeRefresh */
+    abstract protected boolean useSwipeRefresh();
     abstract protected int getLayoutId();
     abstract protected RecyclerViewAdapter getRecyclerViewAdapter();
     abstract protected void setData();
 
     protected void setupView(View rootView) {}
     protected void loadNextData() {}
+    protected void refreshData() {}
 
     /**
      * set data loading status with below APIs.
      * loadNextData() will be called only when isDataloading() returns false;
      */
-    final protected void startDataLoading() { onLoadingData = true; }
-    final protected void finishDataLoading() { onLoadingData = false; }
-    final protected boolean isDataLoading() { return onLoadingData; }
+    final protected void startDataLoading() {
+        onLoadingData = true;
+        swipeRefreshLayout.setEnabled(false);
+    }
+
+    final protected void finishDataLoading() {
+        onLoadingData = false;
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setEnabled(useSwipeRefresh());
+    }
+
+    final protected boolean isDataLoading() {
+        return onLoadingData;
+    }
 
 
     @Override
@@ -48,11 +65,27 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(getLayoutId(), container, false);
+        swipeRefreshLayout = setupSwipeRefreshLayout(rootView);
         recyclerView = setupRecyclerView(rootView);
 
         setupView(rootView);
 
         return rootView;
+    }
+
+    private SwipeRefreshLayout setupSwipeRefreshLayout(View rootView) {
+        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh_layout);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+            }
+        });
+        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.RED); // todo Not sure what the second color is.
+        swipeRefreshLayout.setEnabled(useSwipeRefresh());
+
+        return swipeRefreshLayout;
     }
 
     private RecyclerView setupRecyclerView(View rootView) {
