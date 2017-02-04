@@ -66,7 +66,18 @@ public class FlickrManager {
         return url;
     }
 
+    private static String replaceWhiteSpaceWithPlus(String text) {
+        String[] texts = text.split("\\s+");
+        text = "";
+        for (int i = 0; i < texts.length; i++) {
+            if (i != 0) { text += "+"; }
+            text += texts[i];
+        }
+        return text;
+    }
+
     private static String searchAPI(String keyword, int page) {
+        keyword = replaceWhiteSpaceWithPlus(keyword);
         return flickrAPI("flickr.photos.search", page, "text=" + keyword);
     }
 
