@@ -5,9 +5,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
-import com.sample.myapplication.R;
 
 import java.util.List;
 
@@ -18,7 +15,6 @@ public abstract class RecyclerViewAdapter<T extends RecyclerView.ViewHolder, E> 
     protected FragmentActivity activity;
     protected int resourceIdx;
     protected RecyclerView recyclerView;
-    protected ProgressBar progressBar;
     protected View emptyStateView;
 
     public void setActivity(FragmentActivity activity) {
@@ -36,10 +32,6 @@ public abstract class RecyclerViewAdapter<T extends RecyclerView.ViewHolder, E> 
     public void setData(@Nullable List<E> data) {
         if (recyclerView != null && recyclerView.getVisibility() == View.GONE) {
             recyclerView.setVisibility(View.VISIBLE);
-        }
-
-        if (progressBar != null && progressBar.getVisibility() == View.VISIBLE) {
-            progressBar.setVisibility(View.GONE);
         }
 
         if (recyclerView != null && emptyStateView != null) {
@@ -108,7 +100,6 @@ public abstract class RecyclerViewAdapter<T extends RecyclerView.ViewHolder, E> 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
-        this.progressBar = (ProgressBar) ((ViewGroup) recyclerView.getParent()).findViewById(R.id.progress_bar);
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.sample.myapplication.R;
 import com.sample.myapplication.Utils.LogUtil;
@@ -20,6 +21,7 @@ public abstract class BaseFragment extends Fragment {
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected RecyclerView recyclerView;
     protected RecyclerViewAdapter recyclerViewAdapter;
+    protected ProgressBar progressBar;
 
     private boolean onLoadingData = false;
 
@@ -39,12 +41,20 @@ public abstract class BaseFragment extends Fragment {
      * loadNextData() will be called only when isDataloading() returns false;
      */
     final protected void startDataLoading() {
+        startDataLoading(true);
+    }
+
+    final protected void startDataLoading(boolean showProgressBar) {
         onLoadingData = true;
+        if (showProgressBar) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
         swipeRefreshLayout.setEnabled(false);
     }
 
     final protected void finishDataLoading() {
         onLoadingData = false;
+        progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
         swipeRefreshLayout.setEnabled(useSwipeRefresh());
     }
@@ -67,6 +77,7 @@ public abstract class BaseFragment extends Fragment {
         View rootView = inflater.inflate(getLayoutId(), container, false);
         swipeRefreshLayout = setupSwipeRefreshLayout(rootView);
         recyclerView = setupRecyclerView(rootView);
+        progressBar = setupProgressBar(rootView);
 
         setupView(rootView);
 
@@ -117,6 +128,12 @@ public abstract class BaseFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         // todo should check (lauoutManager instanceof LinearLayoutManager);
         return ((LinearLayoutManager)layoutManager).findLastVisibleItemPosition();
+    }
+
+    private ProgressBar setupProgressBar(View rootView) {
+        ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
+        return progressBar;
     }
 
     @Override
