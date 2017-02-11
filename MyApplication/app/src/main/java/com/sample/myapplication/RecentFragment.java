@@ -12,7 +12,7 @@ public class RecentFragment extends GridFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.grid;
+        return R.layout.recent_fragment;
     }
 
     @Override
