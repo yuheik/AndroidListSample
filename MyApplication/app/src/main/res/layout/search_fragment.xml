@@ -31,5 +31,5 @@
 
     </LinearLayout>
 
-    <include layout="@layout/grid" />
+    <include layout="@layout/recycler_view" />
 </LinearLayout>

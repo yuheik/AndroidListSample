@@ -2,13 +2,18 @@ package com.sample.myapplication;
 
 import android.support.annotation.Nullable;
 
-import com.sample.myapplication.Fragments.GridFragment;
+import com.sample.myapplication.Fragments.BaseFragment;
 import com.sample.myapplication.Fragments.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 
-public class RecentFragment extends GridFragment {
+public class RecentFragment extends BaseFragment {
     private int page = 1;
+
+    @Override
+    protected boolean isListView() {
+        return false;
+    }
 
     @Override
     protected int getLayoutId() {

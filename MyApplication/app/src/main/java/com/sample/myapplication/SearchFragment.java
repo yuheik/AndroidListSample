@@ -10,17 +10,22 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.sample.myapplication.Fragments.GridFragment;
+import com.sample.myapplication.Fragments.BaseFragment;
 import com.sample.myapplication.Fragments.RecyclerViewAdapter;
 import com.sample.myapplication.Utils.LogUtil;
 import com.sample.myapplication.Utils.UIUtil;
 
 import java.util.ArrayList;
 
-public class SearchFragment extends GridFragment {
+public class SearchFragment extends BaseFragment {
     private String currentKeyword = "";
     private EditText editText;
     private int page = 1;
+
+    @Override
+    protected boolean isListView() {
+        return false;
+    }
 
     @Override
     protected int getLayoutId() {
