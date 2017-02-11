@@ -13,31 +13,38 @@ public abstract class RecyclerViewAdapter<T extends RecyclerView.ViewHolder, E> 
     protected List<E> data;
 
     protected FragmentActivity activity;
-    protected int resourceIdx;
-    protected RecyclerView recyclerView;
-    protected View emptyStateView;
+    protected int              resourceIdx;
+    protected RecyclerView     recyclerView;
+    protected View             emptyView;
 
     public void setActivity(FragmentActivity activity) {
         this.activity = activity;
     }
 
-    public void setEmptyStateView(View emptyStateView) {
-        this.emptyStateView = emptyStateView;
+    public void setEmptyView(View emptyView) {
+        this.emptyView = emptyView;
     }
+
+    private void setVisibility(View view, int visible) {
+        if (view != null) { view.setVisibility(visible); }
+    }
+    private void show(View view) { setVisibility(view, View.VISIBLE); }
+    private void hide(View view) { setVisibility(view, View.GONE);    }
 
     /**
      * Set adapter data.
      * @param data @Note. Be sure not to pass the reference of original.
      */
     public void setData(@Nullable List<E> data) {
-        if (recyclerView != null && recyclerView.getVisibility() == View.GONE) {
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-
-        if (recyclerView != null && emptyStateView != null) {
-            boolean emptyData = (data == null || data.size() == 0);
-            recyclerView.setVisibility(emptyData ? View.GONE : View.VISIBLE);
-            emptyStateView.setVisibility(emptyData ? View.VISIBLE : View.GONE);
+        if (data == null) {
+            hide(recyclerView);
+            hide(emptyView);
+        } else if (data.size() == 0) {
+            hide(recyclerView);
+            show(emptyView);
+        } else {
+            show(recyclerView);
+            hide(emptyView);
         }
 
         if (this.data == null || data == null) {
@@ -75,9 +82,9 @@ public abstract class RecyclerViewAdapter<T extends RecyclerView.ViewHolder, E> 
             if (isDataEqual(data.get(i), item)) {
                 data.remove(i);
                 notifyItemRemoved(i);
-                if (recyclerView != null && emptyStateView != null && data.size() == 0) {
+                if (recyclerView != null && emptyView != null && data.size() == 0) {
                     recyclerView.setVisibility(View.GONE);
-                    emptyStateView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.VISIBLE);
                 }
                 return;
             }

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/empty_state_view">
+    android:id="@+id/empty_view">
 
     <ImageView
         android:layout_marginTop="95dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/empty_image" />
+        android:id="@+id/empty_view_image"
+        app:srcCompat="?android:attr/alertDialogIcon"/>
 
     <TextView
         android:layout_marginTop="27dp"
@@ -20,7 +22,8 @@
         android:gravity="center"
         android:textSize="16sp"
         android:textColor="#74899e"
-        android:id="@+id/empty_large_text" />
+        android:id="@+id/empty_view_large_text"
+        android:text="No Data" />
 
     <TextView
         android:layout_marginTop="16dp"
@@ -30,6 +33,7 @@
         android:gravity="center"
         android:textSize="13sp"
         android:textColor="#74899e"
-        android:id="@+id/empty_small_text" />
+        android:id="@+id/empty_view_small_text"
+        android:text="Please specify data." />
 
 </LinearLayout>

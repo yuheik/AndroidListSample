@@ -28,6 +28,8 @@
                     android:scrollbars="vertical"
                     android:visibility="gone" />
 
+                <include layout="@layout/empty_view" />
+
         </FrameLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

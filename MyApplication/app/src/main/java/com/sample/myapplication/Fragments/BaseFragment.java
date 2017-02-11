@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.sample.myapplication.R;
@@ -18,10 +19,11 @@ import com.sample.myapplication.Utils.LogUtil;
 public abstract class BaseFragment extends Fragment {
     private static double LOAD_NEXT_THRESHOLD = 0.6;
 
-    protected SwipeRefreshLayout swipeRefreshLayout;
-    protected RecyclerView recyclerView;
+    protected SwipeRefreshLayout  swipeRefreshLayout;
+    protected RecyclerView        recyclerView;
     protected RecyclerViewAdapter recyclerViewAdapter;
-    protected ProgressBar progressBar;
+    protected ProgressBar         progressBar;
+    protected LinearLayout        emptyView;
 
     private boolean onLoadingData = false;
 
@@ -76,8 +78,11 @@ public abstract class BaseFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(getLayoutId(), container, false);
         swipeRefreshLayout = setupSwipeRefreshLayout(rootView);
-        recyclerView = setupRecyclerView(rootView);
         progressBar = setupProgressBar(rootView);
+        recyclerView = setupRecyclerView(rootView);
+        emptyView = setupEmptyView(rootView);
+
+        recyclerViewAdapter.setEmptyView(emptyView);
 
         setupView(rootView);
 
@@ -134,6 +139,12 @@ public abstract class BaseFragment extends Fragment {
         ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
         return progressBar;
+    }
+
+    private LinearLayout setupEmptyView(View rootView) {
+        LinearLayout emptyView = (LinearLayout) rootView.findViewById(R.id.empty_view);
+        emptyView.setVisibility(View.GONE);
+        return emptyView;
     }
 
     @Override
