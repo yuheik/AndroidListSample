@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- todo want to show border between raido buttons and others -->
+    <group android:id="@+id/menu_layout"
+           android:checkableBehavior="single">
+        <item android:id="@+id/menu_layout_list"
+              android:title="display: List"
+              android:showAsAction="never" />
+        <item android:id="@+id/menu_layout_grid"
+              android:title="display: grid"
+              android:showAsAction="never" />
+    </group>
+
+    <item android:id="@+id/menu_test"
+          android:title="test"/>
+</menu>
