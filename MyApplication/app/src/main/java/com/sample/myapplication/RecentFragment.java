@@ -17,7 +17,7 @@ public class RecentFragment extends GridFragment {
 
     @Override
     protected RecyclerViewAdapter getRecyclerViewAdapter() {
-        return new GridItemAdapter(FlickrManager.Type.RECENT);
+        return new PhotoItemAdapter(FlickrManager.Type.RECENT, R.layout.grid_item);
     }
 
     @Override

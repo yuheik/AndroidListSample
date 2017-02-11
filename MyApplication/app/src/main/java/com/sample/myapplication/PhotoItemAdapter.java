@@ -6,17 +6,19 @@ import android.view.View;
 import com.sample.myapplication.Fragments.ItemViewAdapter;
 import com.sample.myapplication.Fragments.ItemViewHolder;
 
-public class ListItemAdapter extends ItemViewAdapter<FlickrManager.Photo> {
+public class PhotoItemAdapter extends ItemViewAdapter<FlickrManager.Photo> {
     private FlickrManager.Type type;
+    private int layoutId;
 
-    public ListItemAdapter(FlickrManager.Type type) {
+    public PhotoItemAdapter(FlickrManager.Type type, int layoutId) {
         super();
         this.type = type;
+        this.layoutId = layoutId;
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.list_item;
+        return layoutId;
     }
 
     @Override

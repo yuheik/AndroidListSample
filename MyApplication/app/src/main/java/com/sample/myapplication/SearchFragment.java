@@ -29,7 +29,7 @@ public class SearchFragment extends GridFragment {
 
     @Override
     protected RecyclerViewAdapter getRecyclerViewAdapter() {
-        return new GridItemAdapter(FlickrManager.Type.SEARCH);
+        return new PhotoItemAdapter(FlickrManager.Type.SEARCH, R.layout.grid_item);
     }
 
     @Override
