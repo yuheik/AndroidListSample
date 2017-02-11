@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.sample.myapplication.Fragments.ItemViewHolder;
 import com.sample.myapplication.Utils.LogUtil;
 
-public class PhotoViewHolder extends ItemViewHolder<FlickrManager.Photo> {
+public class PhotoItemViewHolder extends ItemViewHolder<FlickrManager.Photo> {
     private FlickrManager.Type type;
 
     private ImageView image;
@@ -19,7 +19,7 @@ public class PhotoViewHolder extends ItemViewHolder<FlickrManager.Photo> {
     private TextView date;
     private TextView rankingItemOrder;
 
-    public PhotoViewHolder(View itemView, Context context, FlickrManager.Type type) {
+    public PhotoItemViewHolder(View itemView, Context context, FlickrManager.Type type) {
         super(itemView, context);
 
         this.type = type;

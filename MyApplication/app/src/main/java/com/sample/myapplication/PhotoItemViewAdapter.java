@@ -6,11 +6,11 @@ import android.view.View;
 import com.sample.myapplication.Fragments.ItemViewAdapter;
 import com.sample.myapplication.Fragments.ItemViewHolder;
 
-public class PhotoItemAdapter extends ItemViewAdapter<FlickrManager.Photo> {
+public class PhotoItemViewAdapter extends ItemViewAdapter<FlickrManager.Photo> {
     private FlickrManager.Type type;
     private int layoutId;
 
-    public PhotoItemAdapter(FlickrManager.Type type, int layoutId) {
+    public PhotoItemViewAdapter(FlickrManager.Type type, int layoutId) {
         super();
         this.type = type;
         this.layoutId = layoutId;
@@ -23,7 +23,7 @@ public class PhotoItemAdapter extends ItemViewAdapter<FlickrManager.Photo> {
 
     @Override
     protected ItemViewHolder getItemViewHolder(View itemView, Context context) {
-        return new PhotoViewHolder(itemView, context, this.type);
+        return new PhotoItemViewHolder(itemView, context, this.type);
     }
 
     @Override
