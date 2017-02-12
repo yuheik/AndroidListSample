@@ -27,19 +27,19 @@ public abstract class BaseFragment extends Fragment {
         GRID,
     }
 
-    protected SwipeRefreshLayout  swipeRefreshLayout;
-    protected RecyclerView        recyclerView;
-    protected RecyclerViewAdapter recyclerViewAdapter;
-    protected ProgressBar         progressBar;
-    protected LinearLayout        emptyView;
-    protected DisplayType         displayType;
+    protected SwipeRefreshLayout swipeRefreshLayout;
+    protected RecyclerView       recyclerView;
+    protected ItemViewAdapter    itemViewAdapter;
+    protected ProgressBar        progressBar;
+    protected LinearLayout       emptyView;
+    protected DisplayType        displayType;
 
     private boolean onLoadingData = false;
 
     /** must override refreshData() when using SwipeRefresh */
     abstract protected boolean useSwipeRefresh();
     abstract protected int getLayoutId();
-    abstract protected RecyclerViewAdapter getRecyclerViewAdapter();
+    abstract protected ItemViewAdapter getItemViewAdapter();
     abstract protected void setData();
 
     protected void setupView(View rootView) {}
@@ -47,7 +47,7 @@ public abstract class BaseFragment extends Fragment {
     protected void refreshData() {}
 
     public BaseFragment() {
-        this.displayType = DisplayType.GRID;
+        this.displayType = DisplayType.LIST;
     }
 
     /**
@@ -84,7 +84,8 @@ public abstract class BaseFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        recyclerViewAdapter = getRecyclerViewAdapter();
+        itemViewAdapter = getItemViewAdapter();
+        itemViewAdapter.setDisplayType(this.displayType);
     }
 
     @Override
@@ -125,7 +126,7 @@ public abstract class BaseFragment extends Fragment {
         recyclerView = setupRecyclerView(rootView);
         emptyView = setupEmptyView(rootView);
 
-        recyclerViewAdapter.setEmptyView(emptyView);
+        itemViewAdapter.setEmptyView(emptyView);
 
         setupView(rootView);
 
@@ -155,14 +156,14 @@ public abstract class BaseFragment extends Fragment {
                                                                   LinearLayoutManager.VERTICAL,
                                                                   false));
         }
-        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setAdapter(itemViewAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 if (! isDataLoading() &&
-                    (recyclerViewAdapter.getItemCount() * LOAD_NEXT_THRESHOLD) < getLastVisibleItemPosition()) {
+                    (itemViewAdapter.getItemCount() * LOAD_NEXT_THRESHOLD) < getLastVisibleItemPosition()) {
                     // dumpStatus();
                     loadNextData();
                 }
@@ -194,7 +195,7 @@ public abstract class BaseFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        recyclerViewAdapter.setActivity(this.getActivity());
+        itemViewAdapter.setActivity(this.getActivity());
         setData();
     }
 

@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.sample.myapplication.Fragments.BaseFragment;
-import com.sample.myapplication.Fragments.RecyclerViewAdapter;
+import com.sample.myapplication.Fragments.ItemViewAdapter;
 import com.sample.myapplication.Utils.LogUtil;
 import com.sample.myapplication.Utils.UIUtil;
 
@@ -28,7 +28,7 @@ public class SearchFragment extends BaseFragment {
     }
 
     @Override
-    protected RecyclerViewAdapter getRecyclerViewAdapter() {
+    protected ItemViewAdapter getItemViewAdapter() {
         return new PhotoItemViewAdapter(FlickrManager.Type.SEARCH,
                                         R.layout.list_item,
                                         R.layout.grid_item);
@@ -94,7 +94,7 @@ public class SearchFragment extends BaseFragment {
 
     @Override
     protected void setData() {
-        recyclerViewAdapter.setData(null);
+        itemViewAdapter.setData(null);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class SearchFragment extends BaseFragment {
                 if (pageIndex == 1) {
                     recyclerView.smoothScrollToPosition(0);
                 }
-                recyclerViewAdapter.setData(photos);
+                itemViewAdapter.setData(photos);
                 finishDataLoading();
             }
         });

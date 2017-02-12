@@ -3,7 +3,7 @@ package com.sample.myapplication;
 import android.support.annotation.Nullable;
 
 import com.sample.myapplication.Fragments.BaseFragment;
-import com.sample.myapplication.Fragments.RecyclerViewAdapter;
+import com.sample.myapplication.Fragments.ItemViewAdapter;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ public class RecentFragment extends BaseFragment {
     }
 
     @Override
-    protected RecyclerViewAdapter getRecyclerViewAdapter() {
+    protected ItemViewAdapter getItemViewAdapter() {
         return new PhotoItemViewAdapter(FlickrManager.Type.RECENT,
                                         R.layout.list_item,
                                         R.layout.grid_item);
@@ -54,7 +54,7 @@ public class RecentFragment extends BaseFragment {
                 if (pageIndex == 1) {
                     recyclerView.scrollToPosition(0);
                 }
-                recyclerViewAdapter.setData(photos);
+                itemViewAdapter.setData(photos);
                 finishDataLoading();
             }
         });

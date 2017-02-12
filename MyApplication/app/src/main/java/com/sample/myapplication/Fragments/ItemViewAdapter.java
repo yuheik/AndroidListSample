@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 public abstract class ItemViewAdapter<T> extends RecyclerViewAdapter<ItemViewHolder, T> {
     private int listLayoutId;
     private int gridLayoutId;
+    private BaseFragment.DisplayType displayType;
 
     abstract protected ItemViewHolder getItemViewHolder(View itemView, Context context);
 
@@ -21,12 +22,21 @@ public abstract class ItemViewAdapter<T> extends RecyclerViewAdapter<ItemViewHol
         Context context = parent.getContext();
 
         View itemView = LayoutInflater.from(context)
-                                      .inflate(this.gridLayoutId, parent, false);
+                                      .inflate(getLayoutId(), parent, false);
         return getItemViewHolder(itemView, context);
     }
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
         holder.bind(data.get(position), position);
+    }
+
+    public void setDisplayType(BaseFragment.DisplayType displayType) {
+        this.displayType = displayType;
+    }
+
+    private int getLayoutId() {
+        return (this.displayType == BaseFragment.DisplayType.GRID)
+               ? this.gridLayoutId : this.listLayoutId;
     }
 }
