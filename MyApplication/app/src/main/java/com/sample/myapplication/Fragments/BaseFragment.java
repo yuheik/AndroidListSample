@@ -47,7 +47,7 @@ public abstract class BaseFragment extends Fragment {
     protected void refreshData() {}
 
     public BaseFragment() {
-        this.displayType = DisplayType.LIST;
+        this.displayType = DisplayType.GRID;
     }
 
     /**
@@ -97,7 +97,12 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.menu_layout_list).setChecked(true);
+
+        if (this.displayType == DisplayType.GRID) {
+            menu.findItem(R.id.menu_layout_grid).setChecked(true);
+        } else {
+            menu.findItem(R.id.menu_layout_list).setChecked(true);
+        }
     }
 
     @Override
