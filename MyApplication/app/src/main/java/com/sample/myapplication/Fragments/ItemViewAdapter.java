@@ -6,14 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class ItemViewAdapter<T> extends RecyclerViewAdapter<ItemViewHolder, T> {
-    abstract protected int getLayoutId();
+    private int listLayoutId;
+    private int gridLayoutId;
+
     abstract protected ItemViewHolder getItemViewHolder(View itemView, Context context);
+
+    public ItemViewAdapter(int listLayoutId, int gridLayoutId) {
+        this.listLayoutId = listLayoutId;
+        this.gridLayoutId = gridLayoutId;
+    }
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
 
-        View itemView = LayoutInflater.from(context).inflate(getLayoutId(), parent, false);
+        View itemView = LayoutInflater.from(context)
+                                      .inflate(this.gridLayoutId, parent, false);
         return getItemViewHolder(itemView, context);
     }
 

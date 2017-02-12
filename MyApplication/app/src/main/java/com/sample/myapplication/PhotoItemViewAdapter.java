@@ -8,17 +8,12 @@ import com.sample.myapplication.Fragments.ItemViewHolder;
 
 public class PhotoItemViewAdapter extends ItemViewAdapter<FlickrManager.Photo> {
     private FlickrManager.Type type;
-    private int layoutId;
 
-    public PhotoItemViewAdapter(FlickrManager.Type type, int layoutId) {
-        super();
+    public PhotoItemViewAdapter(FlickrManager.Type type,
+                                int listLayoutId,
+                                int gridLayoutId) {
+        super(listLayoutId, gridLayoutId);
         this.type = type;
-        this.layoutId = layoutId;
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return layoutId;
     }
 
     @Override

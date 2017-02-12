@@ -22,15 +22,20 @@ import com.sample.myapplication.Utils.LogUtil;
 public abstract class BaseFragment extends Fragment {
     private static double LOAD_NEXT_THRESHOLD = 0.6;
 
+    protected enum DisplayType {
+        LIST,
+        GRID,
+    }
+
     protected SwipeRefreshLayout  swipeRefreshLayout;
     protected RecyclerView        recyclerView;
     protected RecyclerViewAdapter recyclerViewAdapter;
     protected ProgressBar         progressBar;
     protected LinearLayout        emptyView;
+    protected DisplayType         displayType;
 
     private boolean onLoadingData = false;
 
-    abstract protected boolean isListView();
     /** must override refreshData() when using SwipeRefresh */
     abstract protected boolean useSwipeRefresh();
     abstract protected int getLayoutId();
@@ -40,6 +45,10 @@ public abstract class BaseFragment extends Fragment {
     protected void setupView(View rootView) {}
     protected void loadNextData() {}
     protected void refreshData() {}
+
+    public BaseFragment() {
+        this.displayType = DisplayType.GRID;
+    }
 
     /**
      * set data loading status with below APIs.
@@ -141,7 +150,7 @@ public abstract class BaseFragment extends Fragment {
     private RecyclerView setupRecyclerView(View rootView) {
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
 
-        if (isListView()) {
+        if (this.displayType == DisplayType.LIST) {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                                                                   LinearLayoutManager.VERTICAL,
                                                                   false));

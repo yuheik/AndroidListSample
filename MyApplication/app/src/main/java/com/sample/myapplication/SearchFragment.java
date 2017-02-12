@@ -23,18 +23,15 @@ public class SearchFragment extends BaseFragment {
     private int page = 1;
 
     @Override
-    protected boolean isListView() {
-        return false;
-    }
-
-    @Override
     protected int getLayoutId() {
         return R.layout.search_fragment;
     }
 
     @Override
     protected RecyclerViewAdapter getRecyclerViewAdapter() {
-        return new PhotoItemViewAdapter(FlickrManager.Type.SEARCH, R.layout.grid_item);
+        return new PhotoItemViewAdapter(FlickrManager.Type.SEARCH,
+                                        R.layout.list_item,
+                                        R.layout.grid_item);
     }
 
     @Override
