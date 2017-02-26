@@ -75,7 +75,7 @@ class FlickrPhoto {
 }
 
 class RetrofitUtil {
-    public static <T> T createJsonService(Class<T> target, String EndPoint) {
+    private static OkHttpClient getHttpClient() {
         // for logging
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -83,11 +83,16 @@ class RetrofitUtil {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
 
+        return httpClient.build();
+    }
+
+    public static <T> T createJsonService(Class<T> target, String EndPoint) {
+
         Retrofit retrofit =
                 new Retrofit.Builder()
                         .baseUrl(EndPoint)
                         .addConverterFactory(GsonConverterFactory.create())
-                        .client(httpClient.build()) // for logging
+                        .client(getHttpClient())
                         .build();
 
         return retrofit.create(target);
