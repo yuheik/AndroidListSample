@@ -74,16 +74,8 @@ class FlickrPhoto {
     }
 }
 
-public class FlickrAPI {
-    static final String ApiKey    = "56550df01e50dba4228b82e187629d23";
-    static final String ApiSecret = "b8e7d24b424bd775";
-    static final String EndPoint = "https://api.flickr.com/services/rest/";
-    static final int    PerPage   = 3; // Max item num per request;
-
-    public static  FlickrAPI      self;
-    private static IFlickrService service;
-
-    public FlickrAPI() {
+class RetrofitUtil {
+    public static <T> T createJsonService(Class<T> target, String EndPoint) {
         // for logging
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -98,7 +90,21 @@ public class FlickrAPI {
                         .client(httpClient.build()) // for logging
                         .build();
 
-        service = retrofit.create(IFlickrService.class);
+        return retrofit.create(target);
+    }
+}
+
+public class FlickrAPI {
+    static final String ApiKey    = "56550df01e50dba4228b82e187629d23";
+    static final String ApiSecret = "b8e7d24b424bd775";
+    static final String EndPoint  = "https://api.flickr.com/services/rest/";
+    static final int    PerPage   = 3; // Max item num per request;
+
+    public static  FlickrAPI      self;
+    private static IFlickrService service;
+
+    public FlickrAPI() {
+        service = RetrofitUtil.createJsonService(IFlickrService.class, EndPoint);
     }
 
     public static FlickrAPI getInstance() {
