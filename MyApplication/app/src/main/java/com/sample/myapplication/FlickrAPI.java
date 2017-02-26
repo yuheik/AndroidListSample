@@ -16,12 +16,14 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 interface IFlickrService {
-    @GET("?method=flickr.photos.getRecent&format=json&nojsoncallback=1")
+    String CommonQueryParam = "format=json&nojsoncallback=1";
+
+    @GET("?method=flickr.photos.getRecent" + "&" + CommonQueryParam)
     Call<FlickrResponse> getRecent(@Query("api_key") String apiKey,
                                    @Query("per_page") int perPage,
                                    @Query("page") int page);
 
-    @GET("?method=flickr.photos.search&format=json&nojsoncallback=1")
+    @GET("?method=flickr.photos.search" + "&" + CommonQueryParam)
     Call<FlickrResponse> search(@Query("api_key") String apiKey,
                                 @Query("per_page") int perPage,
                                 @Query("page") int page,
@@ -30,7 +32,7 @@ interface IFlickrService {
 
 class FlickrResponse {
     FlickrPhotos photos;
-    String stat;
+    String       stat;
 }
 
 class FlickrPhotos {
