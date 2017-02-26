@@ -75,24 +75,39 @@ class FlickrPhoto {
 }
 
 class RetrofitUtil {
-    private static OkHttpClient getHttpClient() {
-        // for logging
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+    /** wrap HttpLoggingInterceptor.Level enum */
+    public enum LogLevel {
+        NONE(HttpLoggingInterceptor.Level.NONE),
+        BASIC(HttpLoggingInterceptor.Level.BASIC),
+        HEADERS(HttpLoggingInterceptor.Level.HEADERS),
+        BODY(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(logging);
+        private HttpLoggingInterceptor.Level level;
 
-        return httpClient.build();
+        LogLevel(HttpLoggingInterceptor.Level level) {
+            this.level = level;
+        }
     }
 
-    public static <T> T createJsonService(Class<T> target, String EndPoint) {
+    private static OkHttpClient getHttpClient(LogLevel logLevel) {
+        HttpLoggingInterceptor loggingInterceptor =
+                new HttpLoggingInterceptor().setLevel(logLevel.level);
 
+        return (new OkHttpClient.Builder())
+                .addInterceptor(loggingInterceptor)
+                .build();
+    }
+
+    public static <T> T createJsonService(Class<T> target, String endPoint) {
+        return createJsonService(target, endPoint, LogLevel.NONE);
+    }
+
+    public static <T> T createJsonService(Class<T> target, String endPoint, LogLevel logLevel) {
         Retrofit retrofit =
                 new Retrofit.Builder()
-                        .baseUrl(EndPoint)
+                        .baseUrl(endPoint)
                         .addConverterFactory(GsonConverterFactory.create())
-                        .client(getHttpClient())
+                        .client(getHttpClient(logLevel))
                         .build();
 
         return retrofit.create(target);
