@@ -6,7 +6,7 @@ import android.view.View;
 import com.sample.myapplication.Fragments.ItemViewAdapter;
 import com.sample.myapplication.Fragments.ItemViewHolder;
 
-public class PhotoItemViewAdapter extends ItemViewAdapter<FlickrManager.Photo> {
+public class PhotoItemViewAdapter extends ItemViewAdapter<FlickrPhoto> {
     private FlickrManager.Type type;
 
     public PhotoItemViewAdapter(FlickrManager.Type type,
@@ -22,7 +22,7 @@ public class PhotoItemViewAdapter extends ItemViewAdapter<FlickrManager.Photo> {
     }
 
     @Override
-    protected boolean isDataEqual(FlickrManager.Photo lhs, FlickrManager.Photo rhs) {
+    protected boolean isDataEqual(FlickrPhoto lhs, FlickrPhoto rhs) {
         return lhs.getId().equals(rhs.getId());
     }
 }

@@ -17,9 +17,9 @@ import com.squareup.picasso.Picasso;
 public class ImagerFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
 
-    private FlickrManager.Photo photo;
+    private FlickrPhoto photo;
 
-    public static ImagerFragment newInstance(FlickrManager.Photo photo) {
+    public static ImagerFragment newInstance(FlickrPhoto photo) {
         ImagerFragment fragment = new ImagerFragment();
         Bundle         args     = new Bundle();
         args.putSerializable(ARG_PARAM1, photo);
@@ -31,7 +31,7 @@ public class ImagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            photo = (FlickrManager.Photo) getArguments().getSerializable(ARG_PARAM1);
+            photo = (FlickrPhoto) getArguments().getSerializable(ARG_PARAM1);
         }
     }
 

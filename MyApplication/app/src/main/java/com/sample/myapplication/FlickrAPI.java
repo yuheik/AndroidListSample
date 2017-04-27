@@ -1,8 +1,12 @@
 package com.sample.myapplication;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 import com.sample.myapplication.Utils.LogUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
@@ -42,6 +46,10 @@ class FlickrPhotos {
     private String                 total;
     private ArrayList<FlickrPhoto> photo;
 
+    public ArrayList getPhotos() {
+        return photo;
+    }
+
     public void dump() {
         LogUtil.debug("page    : " + this.page);
         LogUtil.debug("pages   : " + this.pages);
@@ -53,7 +61,7 @@ class FlickrPhotos {
     }
 }
 
-class FlickrPhoto {
+class FlickrPhoto implements Serializable {
     private String id;
     private String owner;
     private String secret;
@@ -71,6 +79,14 @@ class FlickrPhoto {
 
     public void dump() {
         LogUtil.dumpObject("Photo Entry", this);
+    }
+
+    public String getId()     { return id;     }
+    public String getOwner()  { return owner;  }
+    public String getTitle()  { return title;  }
+    public String getSecret() { return secret; }
+    public String getUrl() {
+        return "https://farm" + farm + ".staticflickr.com/" + server + "/" + id + "_" + secret + ".jpg";
     }
 }
 
@@ -104,11 +120,10 @@ class RetrofitUtil {
 
     public static <T> T createJsonService(Class<T> target, String endPoint, LogLevel logLevel) {
         Retrofit retrofit =
-                new Retrofit.Builder()
-                        .baseUrl(endPoint)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .client(getHttpClient(logLevel))
-                        .build();
+                new Retrofit.Builder().baseUrl(endPoint)
+                                      .addConverterFactory(GsonConverterFactory.create())
+                                      .client(getHttpClient(logLevel))
+                                      .build();
 
         return retrofit.create(target);
     }
@@ -118,7 +133,7 @@ public class FlickrAPI {
     static final String ApiKey    = "56550df01e50dba4228b82e187629d23";
     static final String ApiSecret = "b8e7d24b424bd775";
     static final String EndPoint  = "https://api.flickr.com/services/rest/";
-    static final int    PerPage   = 3; // Max item num per request;
+    static final int    PerPage   = 20; // Max item num per request;
 
     public static  FlickrAPI      self;
     private static IFlickrService service;
@@ -132,40 +147,51 @@ public class FlickrAPI {
         return self;
     }
 
-    public void getRecent(int page) {
+    public interface Listener {
+        void onResult(@Nullable FlickrPhotos flickrPhotos);
+    }
+
+    public void getRecent(int page, @NonNull final Listener listener) {
         service.getRecent(ApiKey, PerPage, page)
                .enqueue(new Callback<FlickrResponse>() {
                    @Override
                    public void onResponse(Call<FlickrResponse> call, Response<FlickrResponse> response) {
-                       LogUtil.traceFunc(response.body().stat);
-
                        FlickrPhotos photos = response.body().photos;
-                       photos.dump();
+                       listener.onResult(photos);
                    }
 
                    @Override
                    public void onFailure(Call<FlickrResponse> call, Throwable t) {
-                       LogUtil.traceFunc(call.toString());
                        LogUtil.error((Exception) t);
+                       listener.onResult(null);
                    }
                });
     }
 
-    public void search(int page, String keyword) {
-        service.search(ApiKey, PerPage, page, keyword)
+    public void search(String keyword, int page, @NonNull final Listener listener) {
+        service.search(ApiKey, PerPage, page, replaceWhiteSpaceWithPlus(keyword))
                .enqueue(new Callback<FlickrResponse>() {
                    @Override
                    public void onResponse(Call<FlickrResponse> call, Response<FlickrResponse> response) {
-                       LogUtil.traceFunc();
                        FlickrPhotos photos = response.body().photos;
-                       photos.dump();
+                       listener.onResult(photos);
                    }
 
                    @Override
                    public void onFailure(Call<FlickrResponse> call, Throwable t) {
-                       LogUtil.traceFunc(call.toString());
                        LogUtil.error((Exception) t);
+                       listener.onResult(null);
                    }
                });
+    }
+
+    private static String replaceWhiteSpaceWithPlus(String text) {
+        String[] texts = text.split("\\s+");
+        text = "";
+        for (int i = 0; i < texts.length; i++) {
+            if (i != 0) { text += "+"; }
+            text += texts[i];
+        }
+        return text;
     }
 }

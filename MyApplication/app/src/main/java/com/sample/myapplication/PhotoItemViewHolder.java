@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.sample.myapplication.Fragments.ItemViewHolder;
 import com.sample.myapplication.Utils.LogUtil;
 
-public class PhotoItemViewHolder extends ItemViewHolder<FlickrManager.Photo> {
+public class PhotoItemViewHolder extends ItemViewHolder<FlickrPhoto> {
     private FlickrManager.Type type;
 
     private ImageView image;
@@ -33,7 +33,7 @@ public class PhotoItemViewHolder extends ItemViewHolder<FlickrManager.Photo> {
     }
 
     @Override
-    public void bind(final FlickrManager.Photo photo, final int position) {
+    public void bind(final FlickrPhoto photo, final int position) {
         setImage(image, photo.getUrl());
         setText(title, photo.getTitle());
         setText(subTitle, photo.getOwner());

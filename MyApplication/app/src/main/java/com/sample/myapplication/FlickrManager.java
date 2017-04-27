@@ -3,7 +3,6 @@ package com.sample.myapplication;
 import android.support.annotation.Nullable;
 
 import com.sample.myapplication.Utils.LogUtil;
-import com.sample.myapplication.Utils.NetworkUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,28 +21,44 @@ public class FlickrManager {
     static final String ApiSecret = "b8e7d24b424bd775";
     static final String EndPoint = "https://api.flickr.com/services/rest/";
 
-    private static ArrayList<Photo> resultSearch = new ArrayList<>();
-    private static ArrayList<Photo> resultRecent = new ArrayList<>();
+    private static ArrayList<FlickrPhoto> resultSearch = new ArrayList<>();
+    private static ArrayList<FlickrPhoto> resultRecent = new ArrayList<>();
 
     public interface PhotosListener {
-        void get(@Nullable ArrayList<Photo> photos);
+        void get(@Nullable ArrayList<FlickrPhoto> photos);
     }
 
     public static void search(final String keyword, int page, final PhotosListener photosListener) {
         if (page == 1) {
             resultSearch.clear();
         }
-        requestJSON(searchAPI(keyword, page), resultSearch, photosListener);
+        //requestJSON(searchAPI(keyword, page), resultSearch, photosListener);
+
+        FlickrAPI.getInstance().search(keyword, page, new FlickrAPI.Listener() {
+            @Override
+            public void onResult(@Nullable FlickrPhotos flickrPhotos) {
+                resultSearch.addAll(flickrPhotos.getPhotos());
+                photosListener.get((ArrayList<FlickrPhoto>) resultSearch.clone());
+            }
+        });
     }
 
     public static void recent(int page, final PhotosListener photosListener) {
         if (page == 1) {
             resultRecent.clear();
         }
-        requestJSON(recentAPI(page), resultRecent, photosListener);
+        //requestJSON(recentAPI(page), resultRecent, photosListener);
+
+        FlickrAPI.getInstance().getRecent(page, new FlickrAPI.Listener() {
+            @Override
+            public void onResult(@Nullable FlickrPhotos flickrPhotos) {
+                resultRecent.addAll(flickrPhotos.getPhotos());
+                photosListener.get((ArrayList<FlickrPhoto>) resultRecent.clone());
+            }
+        });
     }
 
-    public static ArrayList<Photo> getResult(FlickrManager.Type type) {
+    public static ArrayList<FlickrPhoto> getResult(FlickrManager.Type type) {
         switch (type) {
             case SEARCH: return resultSearch;
             case RECENT: return resultRecent;
@@ -85,17 +100,17 @@ public class FlickrManager {
         return flickrAPI("flickr.photos.getRecent", page);
     }
 
-    private static void requestJSON(String urlString, final ArrayList<Photo> resultData, final PhotosListener photosListener) {
-        NetworkUtil.request(urlString, new NetworkUtil.RequestListener() {
-            @Override
-            public void onResult(String result) {
-                LogUtil.debug(result);
-                Photos photos = parseFlickrApiResult(result);
-                resultData.addAll(photos.getPhotos());
-                photosListener.get((ArrayList<Photo>) resultData.clone());
-            }
-        });
-    }
+//    private static void requestJSON(String urlString, final ArrayList<Photo> resultData, final PhotosListener photosListener) {
+//        NetworkUtil.request(urlString, new NetworkUtil.RequestListener() {
+//            @Override
+//            public void onResult(String result) {
+//                LogUtil.debug(result);
+//                Photos photos = parseFlickrApiResult(result);
+//                resultData.addAll(photos.getPhotos());
+//                photosListener.get((ArrayList<Photo>) resultData.clone());
+//            }
+//        });
+//    }
 
     private static Photos parseFlickrApiResult(String result) {
         LogUtil.traceFunc(result);

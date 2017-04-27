@@ -108,7 +108,7 @@ public class SearchFragment extends BaseFragment {
         startDataLoading();
         FlickrManager.search(currentKeyword, pageIndex, new FlickrManager.PhotosListener() {
             @Override
-            public void get(@Nullable ArrayList<FlickrManager.Photo> photos) {
+            public void get(@Nullable ArrayList<FlickrPhoto> photos) {
                 if (pageIndex == 1) {
                     recyclerView.smoothScrollToPosition(0);
                 }

@@ -50,7 +50,7 @@ public class RecentFragment extends BaseFragment {
         startDataLoading();
         FlickrManager.recent(pageIndex, new FlickrManager.PhotosListener() {
             @Override
-            public void get(@Nullable ArrayList<FlickrManager.Photo> photos) {
+            public void get(@Nullable ArrayList<FlickrPhoto> photos) {
                 if (pageIndex == 1) {
                     recyclerView.scrollToPosition(0);
                 }

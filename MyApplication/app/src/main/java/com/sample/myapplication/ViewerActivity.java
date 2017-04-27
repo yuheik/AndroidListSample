@@ -37,7 +37,7 @@ public class ViewerActivity extends AppCompatActivity {
     }
 
     static class ViewerPagerAdapter extends FragmentStatePagerAdapter {
-        ArrayList<FlickrManager.Photo> data;
+        ArrayList<FlickrPhoto> data;
 
         public ViewerPagerAdapter(FragmentManager fm, FlickrManager.Type type) {
             super(fm);
