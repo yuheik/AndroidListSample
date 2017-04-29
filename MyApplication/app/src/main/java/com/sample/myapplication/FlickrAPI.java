@@ -5,17 +5,14 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 import com.sample.myapplication.Utils.LogUtil;
+import com.sample.myapplication.Utils.RetrofitUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -87,45 +84,6 @@ class FlickrPhoto implements Serializable {
     public String getSecret() { return secret; }
     public String getUrl() {
         return "https://farm" + farm + ".staticflickr.com/" + server + "/" + id + "_" + secret + ".jpg";
-    }
-}
-
-class RetrofitUtil {
-    /** wrap HttpLoggingInterceptor.Level enum */
-    public enum LogLevel {
-        NONE(HttpLoggingInterceptor.Level.NONE),
-        BASIC(HttpLoggingInterceptor.Level.BASIC),
-        HEADERS(HttpLoggingInterceptor.Level.HEADERS),
-        BODY(HttpLoggingInterceptor.Level.BODY);
-
-        private HttpLoggingInterceptor.Level level;
-
-        LogLevel(HttpLoggingInterceptor.Level level) {
-            this.level = level;
-        }
-    }
-
-    private static OkHttpClient getHttpClient(LogLevel logLevel) {
-        HttpLoggingInterceptor loggingInterceptor =
-                new HttpLoggingInterceptor().setLevel(logLevel.level);
-
-        return (new OkHttpClient.Builder())
-                .addInterceptor(loggingInterceptor)
-                .build();
-    }
-
-    public static <T> T createJsonService(Class<T> target, String endPoint) {
-        return createJsonService(target, endPoint, LogLevel.NONE);
-    }
-
-    public static <T> T createJsonService(Class<T> target, String endPoint, LogLevel logLevel) {
-        Retrofit retrofit =
-                new Retrofit.Builder().baseUrl(endPoint)
-                                      .addConverterFactory(GsonConverterFactory.create())
-                                      .client(getHttpClient(logLevel))
-                                      .build();
-
-        return retrofit.create(target);
     }
 }
 
