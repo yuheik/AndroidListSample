@@ -1,4 +1,4 @@
-package com.sample.myapplication;
+package com.sample.myapplication.Flickr;
 
 import android.support.annotation.Nullable;
 

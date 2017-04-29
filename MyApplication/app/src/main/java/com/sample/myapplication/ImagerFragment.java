@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sample.myapplication.Flickr.FlickrPhoto;
 import com.sample.myapplication.Utils.OnSwipeTouchListener;
 import com.squareup.picasso.Picasso;
 

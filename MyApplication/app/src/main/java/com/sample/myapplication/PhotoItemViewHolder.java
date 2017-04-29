@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sample.myapplication.Flickr.FlickrManager;
+import com.sample.myapplication.Flickr.FlickrPhoto;
 import com.sample.myapplication.Fragments.ItemViewHolder;
 import com.sample.myapplication.Utils.LogUtil;
 

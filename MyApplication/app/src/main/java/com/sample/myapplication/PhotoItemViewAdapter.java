@@ -3,6 +3,8 @@ package com.sample.myapplication;
 import android.content.Context;
 import android.view.View;
 
+import com.sample.myapplication.Flickr.FlickrManager;
+import com.sample.myapplication.Flickr.FlickrPhoto;
 import com.sample.myapplication.Fragments.ItemViewAdapter;
 import com.sample.myapplication.Fragments.ItemViewHolder;
 

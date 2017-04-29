@@ -1,14 +1,10 @@
-package com.sample.myapplication;
+package com.sample.myapplication.Flickr;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.google.gson.annotations.SerializedName;
 import com.sample.myapplication.Utils.LogUtil;
 import com.sample.myapplication.Utils.RetrofitUtil;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,57 +30,6 @@ interface IFlickrService {
 class FlickrResponse {
     FlickrPhotos photos;
     String       stat;
-}
-
-class FlickrPhotos {
-    private int                    page;
-    private String                 pages;
-    private int                    perpage;
-    private String                 total;
-    private ArrayList<FlickrPhoto> photo;
-
-    public ArrayList getPhotos() {
-        return photo;
-    }
-
-    public void dump() {
-        LogUtil.debug("page    : " + this.page);
-        LogUtil.debug("pages   : " + this.pages);
-        LogUtil.debug("perpage : " + this.perpage);
-        LogUtil.debug("total   : " + this.total);
-        for (FlickrPhoto flickrPhoto : photo) {
-            flickrPhoto.dump();
-        }
-    }
-}
-
-class FlickrPhoto implements Serializable {
-    private String id;
-    private String owner;
-    private String secret;
-    private String server;
-    private int    farm;
-    private String title;
-    @SerializedName("ispublic")
-    private int    isPublic;
-    @SerializedName("isfriend")
-    private int    isFriend;
-    @SerializedName("isfamily")
-    private int    isFamily;
-    private String url_o;
-    private String url_m;
-
-    public void dump() {
-        LogUtil.dumpObject("Photo Entry", this);
-    }
-
-    public String getId()     { return id;     }
-    public String getOwner()  { return owner;  }
-    public String getTitle()  { return title;  }
-    public String getSecret() { return secret; }
-    public String getUrl() {
-        return "https://farm" + farm + ".staticflickr.com/" + server + "/" + id + "_" + secret + ".jpg";
-    }
 }
 
 public class FlickrAPI {

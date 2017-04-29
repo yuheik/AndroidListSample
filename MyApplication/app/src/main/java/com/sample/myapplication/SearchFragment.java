@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.sample.myapplication.Flickr.FlickrManager;
+import com.sample.myapplication.Flickr.FlickrPhoto;
 import com.sample.myapplication.Fragments.BaseFragment;
 import com.sample.myapplication.Fragments.ItemViewAdapter;
 import com.sample.myapplication.Utils.LogUtil;
