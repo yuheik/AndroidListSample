@@ -15,11 +15,11 @@ public class PhotoItemViewHolder extends ItemViewHolder<FlickrPhoto> {
     private FlickrManager.Type type;
 
     private ImageView image;
-    private TextView title;
-    private TextView subTitle;
-    private TextView description;
-    private TextView date;
-    private TextView rankingItemOrder;
+    private TextView  title;
+    private TextView  subTitle;
+    private TextView  description;
+    private TextView  date;
+    private TextView  rankingItemOrder;
 
     public PhotoItemViewHolder(View itemView, Context context, FlickrManager.Type type) {
         super(itemView, context);

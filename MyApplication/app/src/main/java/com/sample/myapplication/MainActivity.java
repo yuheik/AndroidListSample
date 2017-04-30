@@ -47,9 +47,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         currentFragment = fragment;
-        fragmentTransaction
-                .replace(R.id.main_content, currentFragment, TabFragment.class.getName())
-                .attach(currentFragment)
-                .commit();
+        fragmentTransaction.replace(R.id.main_content,
+                                    currentFragment,
+                                    TabFragment.class.getName())
+                           .attach(currentFragment)
+                           .commit();
     }
 }

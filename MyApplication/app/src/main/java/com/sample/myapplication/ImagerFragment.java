@@ -39,10 +39,14 @@ public class ImagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.imager_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.imager_fragment,
+                                         container,
+                                         false);
 
         ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView);
-        Picasso.with(this.getContext()).load(this.photo.getUrl()).into(imageView);
+        Picasso.with(this.getContext())
+               .load(this.photo.getUrl())
+               .into(imageView);
 
         final Activity parent = this.getActivity();
 

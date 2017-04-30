@@ -50,15 +50,16 @@ public class RecentFragment extends BaseFragment {
 
     private void loadRecentData(final int pageIndex) {
         startDataLoading();
-        FlickrManager.recent(pageIndex, new FlickrManager.PhotosListener() {
-            @Override
-            public void get(@Nullable ArrayList<FlickrPhoto> photos) {
-                if (pageIndex == 1) {
-                    recyclerView.scrollToPosition(0);
-                }
-                itemViewAdapter.setData(photos);
-                finishDataLoading();
-            }
-        });
+        FlickrManager.recent(pageIndex,
+                             new FlickrManager.PhotosListener() {
+                                 @Override
+                                 public void get(@Nullable ArrayList<FlickrPhoto> photos) {
+                                     if (pageIndex == 1) {
+                                         recyclerView.scrollToPosition(0);
+                                     }
+                                     itemViewAdapter.setData(photos);
+                                     finishDataLoading();
+                                 }
+                             });
     }
 }

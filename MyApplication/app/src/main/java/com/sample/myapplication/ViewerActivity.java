@@ -15,10 +15,10 @@ import com.sample.myapplication.Utils.LogUtil;
 import java.util.ArrayList;
 
 public class ViewerActivity extends AppCompatActivity {
-    public static final String FLICKER_ACTION_TYPE = "FlickerActionType";
+    public static final String FLICKER_ACTION_TYPE   = "FlickerActionType";
     public static final String FLICKER_DATA_POSITION = "FlickerDataPosition";
 
-    ViewPager viewPager;
+    ViewPager    viewPager;
     PagerAdapter pagerAdapter;
 
     @Override

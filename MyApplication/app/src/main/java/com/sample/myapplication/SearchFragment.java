@@ -20,9 +20,12 @@ import com.sample.myapplication.Utils.UIUtil;
 import java.util.ArrayList;
 
 public class SearchFragment extends BaseFragment {
-    private String currentKeyword = "";
+
     private EditText editText;
-    private int page = 1;
+
+    private String currentKeyword = "";
+    private int    page           = 1;
+
 
     @Override
     protected int getLayoutId() {
@@ -108,15 +111,17 @@ public class SearchFragment extends BaseFragment {
 
     private void loadSearchData(final int pageIndex) {
         startDataLoading();
-        FlickrManager.search(currentKeyword, pageIndex, new FlickrManager.PhotosListener() {
-            @Override
-            public void get(@Nullable ArrayList<FlickrPhoto> photos) {
-                if (pageIndex == 1) {
-                    recyclerView.smoothScrollToPosition(0);
-                }
-                itemViewAdapter.setData(photos);
-                finishDataLoading();
-            }
-        });
+        FlickrManager.search(currentKeyword,
+                             pageIndex,
+                             new FlickrManager.PhotosListener() {
+                                 @Override
+                                 public void get(@Nullable ArrayList<FlickrPhoto> photos) {
+                                     if (pageIndex == 1) {
+                                         recyclerView.smoothScrollToPosition(0);
+                                     }
+                                     itemViewAdapter.setData(photos);
+                                     finishDataLoading();
+                                 }
+                             });
     }
 }
