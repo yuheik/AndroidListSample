@@ -1,5 +1,7 @@
 package com.sample.myapplication.Flickr;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 import com.sample.myapplication.Utils.LogUtil;
 
@@ -29,7 +31,12 @@ public class FlickrPhoto implements Serializable {
     public String getOwner()  { return owner;  }
     public String getTitle()  { return title;  }
     public String getSecret() { return secret; }
+
     public String getUrl() {
         return "https://farm" + farm + ".staticflickr.com/" + server + "/" + id + "_" + secret + ".jpg";
+    }
+
+    public boolean isEqual(@NonNull FlickrPhoto other) {
+        return this.getId().equals(other.getId());
     }
 }

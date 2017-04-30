@@ -25,6 +25,6 @@ public class PhotoItemViewAdapter extends ItemViewAdapter<FlickrPhoto> {
 
     @Override
     protected boolean isDataEqual(FlickrPhoto lhs, FlickrPhoto rhs) {
-        return lhs.getId().equals(rhs.getId());
+        return lhs.isEqual(rhs);
     }
 }
